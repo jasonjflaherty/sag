@@ -1,4 +1,5 @@
 class Constants {
+  static final String SAG_ROOT_URL = "https://www.nwcg.gov";
   static final String SAG_DATA_URL =
       'https://drive.google.com/uc?id=1grwczJuYq5c457lo-rpfg58ZuS8WVRVA&export=download';
   static final String SAG_CHAINSAW_DATA_URL =

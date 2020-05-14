@@ -8,7 +8,6 @@ import 'package:sag/models/chainsaws.dart';
 import 'package:sag/models/sagitemstatic.dart';
 import 'package:sag/utils/constants.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:image_downloader/image_downloader.dart';
 
 //{
 //"model": "Craftsman 358.36218X",
@@ -37,7 +36,7 @@ If offline, check the DefaultCacheManager and compare file to local file.
     var filePath;
     //find out if there is a connection, if there is, get the file into the cache
     try {
-      final result = await InternetAddress.lookup("www.nwcg.gov");
+      final result = await InternetAddress.lookup(Constants.SAG_ROOT_URL);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('connected to internet');
         filePath = await DefaultCacheManager().getSingleFile(url);

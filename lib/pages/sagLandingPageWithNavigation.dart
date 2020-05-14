@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sag/pages/legalPage.dart';
 import 'package:sag/pages/qaPage.dart';
 import 'package:sag/pages/sagList.dart';
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 
 class SagSearchPage extends StatefulWidget {
 
@@ -24,33 +23,33 @@ class SagSearchPage extends StatefulWidget {
     return Scaffold(
       //appbar set in each page widget
       body: _pages[_index],
-      bottomNavigationBar: FancyBottomNavigation(
-//        onTap: onTabTapped, // new
-//        currentIndex: _index, // new
-        tabs: [
-          TabData(iconData: Icons.search,title: "Search"),
-          TabData(iconData: Icons.language,title: "Legal"),
-          TabData(iconData: Icons.question_answer,title: "Q&A"),
+//       bottomNavigationBar: FancyBottomNavigation(
+// //        onTap: onTabTapped, // new
+// //        currentIndex: _index, // new
+//         tabs: [
+//           TabData(iconData: Icons.search,title: "Search"),
+//           TabData(iconData: Icons.language,title: "Legal"),
+//           TabData(iconData: Icons.question_answer,title: "Q&A"),
 
-//          BottomNavigationBarItem(
-//            icon: new Icon(Icons.search,semanticLabel: "Search",),
-//            title: new Text('Search')
-//          ),
-//          BottomNavigationBarItem(
-//            icon: new Icon(Icons.language,semanticLabel: "Legal Information",),
-//            title: new Text('Legal')
-//          ),
-//          BottomNavigationBarItem(
-//            icon: new Icon(Icons.question_answer,semanticLabel: "Questions and Answers",),
-//            title: new Text('Q&A')
-//          ),
-        ],
-        onTabChangedListener: (position){
-          setState(() {
-            _index = position;
-          });
-        },
-      ),
+// //          BottomNavigationBarItem(
+// //            icon: new Icon(Icons.search,semanticLabel: "Search",),
+// //            title: new Text('Search')
+// //          ),
+// //          BottomNavigationBarItem(
+// //            icon: new Icon(Icons.language,semanticLabel: "Legal Information",),
+// //            title: new Text('Legal')
+// //          ),
+// //          BottomNavigationBarItem(
+// //            icon: new Icon(Icons.question_answer,semanticLabel: "Questions and Answers",),
+// //            title: new Text('Q&A')
+// //          ),
+//         ],
+//         onTabChangedListener: (position){
+//           setState(() {
+//             _index = position;
+//           });
+//         },
+//       ),
     );
   }
 //  void onTabTapped(int index) {

@@ -25,14 +25,14 @@ dependencies:
     sdk: flutter
   http: ^0.12.0+2
   flutter_cache_manager: ^1.2.2
-  connectivity: ^0.4.8+1
+  #connectivity: ^0.4.8+6
   path_provider: ^1.6.5
   json_annotation: ^1.2.0
   meta: ^1.1.6
-  image_downloader: ^0.19.1
+  #image_downloader: ^0.19.1
   #transparent_image: ^0.1.0
   #cached_network_image: ^2.0.0
-  fancy_bottom_navigation: ^0.3.2
+  titled_navigation_bar: ^4.1.0
   #flutter_advanced_networkimage: ^0.5.0
   url_launcher: ^5.1.3
   getflutter: ^1.0.11
@@ -45,13 +45,10 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^0.10.3
   json_serializable: ^1.4.0
-  flutter_launcher_icons: ^0.7.5
+  #flutter_launcher_icons: ^0.7.5
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-flutter_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon/167.png"
+
 # The following section is specific to Flutter.
 flutter:
 
@@ -92,3 +89,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+# flutter_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/icon/167.png"

@@ -2,27 +2,24 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
-import 'package:sag/models/chainsaws.dart';
-import 'package:sag/pages/qaPage.dart';
+import 'package:sag/models/generals.dart';
 import 'package:sag/utils/constants.dart';
-import 'package:sag/services/fetchChainsawJson.dart';
-import 'package:titled_navigation_bar/titled_navigation_bar.dart';
+import 'package:sag/services/fetchGeneralJson.dart';
 import 'package:sag/pages/chainsawList.dart';
 import 'package:sag/pages/generalList.dart';
 import 'package:sag/pages/legalPage.dart';
 import 'package:sag/pages/otherList.dart';
 import 'package:sag/pages/qaPage.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
-import '../main.dart';
-import 'legalPage.dart';
 
-class ChainsawFilterData extends StatefulWidget {
-  ChainsawFilterData() : super();
+import '../main.dart';
+class GSAFilterData extends StatefulWidget {
+  GSAFilterData() : super();
 
   final String title = Constants.SAG_APP_TITLE;
 
   @override
-  ChainsawFilterDataState createState() => ChainsawFilterDataState();
+  GSAFilterDataState createState() => GSAFilterDataState();
 }
 
 class Debouncer {
@@ -40,9 +37,9 @@ class Debouncer {
   }
 }
 
-class ChainsawFilterDataState extends State<ChainsawFilterData> {
-  List<Chainsaws> item;
-  List<Chainsaws> filteredItem;
+class GSAFilterDataState extends State<GSAFilterData> {
+  List<GSAs> item;
+  List<GSAs> filteredItem;
   final _debouncer = Debouncer(milliseconds: 500);
   //set loading to false inital so no show spinner
   bool _isLoading = false;
@@ -52,9 +49,9 @@ class ChainsawFilterDataState extends State<ChainsawFilterData> {
     //set the spinner to true
     setState(() => _isLoading = true);
     super.initState();
-    FetchJson.getChainsawData().then((csDataFromJson) {
+    FetchJson.getGSAData().then((otherDataFromJson) {
       setState(() {
-        item = csDataFromJson;
+        item = otherDataFromJson;
         filteredItem = item;
         //make it false once the items are aready
         _isLoading = false;
@@ -66,7 +63,7 @@ class ChainsawFilterDataState extends State<ChainsawFilterData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Data for Chainsaws"),
+        title: Text("Data for General Spark Arresters"),
         centerTitle: true,
       ),
       body: _isLoading
@@ -79,20 +76,20 @@ class ChainsawFilterDataState extends State<ChainsawFilterData> {
                 TextField(
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(15.0),
-                    hintText: 'Filter by Exhaust#, Model# or Remarks',
+                    hintText: 'Filter by Manufacturer, Model or Description',
                     prefixIcon: Icon(Icons.search),
                   ),
                   onChanged: (string) {
                     _debouncer.run(() {
                       setState(() {
                         filteredItem = item
-                            .where((s) => (s.model
+                            .where((s) => (s.manufacturer
                                     .toLowerCase()
                                     .contains(string.toLowerCase()) ||
-                                s.exhaust
+                                s.model
                                     .toLowerCase()
                                     .contains(string.toLowerCase())  ||
-                                s.remarks
+                                s.description
                                     .toLowerCase()
                                     .contains(string.toLowerCase())))
                             .toList();
@@ -131,7 +128,7 @@ class ChainsawFilterDataState extends State<ChainsawFilterData> {
                                   // dividerWidth: MediaQuery.of(context).size.width,
                                 ),
                                 GFTypography(
-                                  text: "Exhaust: " + filteredItem[index].exhaust + "\nMFR: " + filteredItem[index].mfr  + "\nHandlebar (in): " + filteredItem[index].handlebar  + "\nSpike: " + filteredItem[index].spike  + "\nCB/HG: " + filteredItem[index].cbHg,
+                                  text: "Manufacturer: " + filteredItem[index].manufacturer,
                                   type: GFTypographyType.typo5,
                                   showDivider: false,
                                 ),
@@ -140,7 +137,7 @@ class ChainsawFilterDataState extends State<ChainsawFilterData> {
                                 ),
                                 GFTypography(
                                   showDivider: false,
-                                  text: "Remarks: " + filteredItem[index].remarks,
+                                  text: "Remarks: " + filteredItem[index].description,
                                   type: GFTypographyType.typo5,
                                 ),
                                 // Icon(

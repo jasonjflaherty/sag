@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sag/models/sagitemstatic.dart';
 import 'package:sag/utils/constants.dart';
-import 'package:sag/widgets/sagDetailsImage.dart';
 
 class DetailScreen extends StatelessWidget {
   // Declare a field that holds the Todo.
@@ -36,9 +35,9 @@ class DetailScreen extends StatelessWidget {
                     children: [
                       Center(
                         //sagDetailsImage.dart
-                        child: SagImage(
-                            //pass this back to the widget
-                            sagitem.image),
+                        // child: SagImage(
+                        //     //pass this back to the widget
+                        //     sagitem.image),
                       ),
                     ],
                   ),

@@ -4,14 +4,25 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:sag/models/generals.dart';
 import 'package:sag/models/sagitemstatic.dart';
 import 'package:sag/utils/constants.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+//{
+//"model": "Craftsman 358.36218X",
+//"exhaust": "2100A ",
+//"mfr": "ZEN ",
+//"handlebar": "1/2",
+//"spike": "MIS",
+//"cbHg": "Yes",
+//"remarks": "2100A stamped into the front half of muffler"
+//},
+
 class FetchJson {
-  static String url = Constants.SAG_DATA_URL;
-  static List<Chainsaw> list = parseSagItems(
-      '[{"Manufacture": "sorry, there has been an error loading data","Model": "No network file available...","Comments": "","Image": "","Description": ""}]');
+  static String url = Constants.SAG_GENERAL_DATA_URL;
+  static List<GSAs> list = parseGSAItems(
+      '[{"model": "sorry, there has been an error loading data","exhaust": "No network file available...","mfr": "","handlebar": "","spike": "","cbHg":"","remarks":""}]');
   List<File> _mulitpleFiles = [];
 /**
 
@@ -21,16 +32,11 @@ Download all images to temp()
 If offline, check the DefaultCacheManager and compare file to local file.
 
 **/
-
-  static Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/sagdata.json');
-  }
-
-  static Future<List<Chainsaw>> getSagData() async {
+  static Future<List<GSAs>> getGSAData() async {
     var filePath;
     //find out if there is a connection, if there is, get the file into the cache
     try {
-      final result = await InternetAddress.lookup("fs.usda.gov");
+      final result = await InternetAddress.lookup(Constants.SAG_ROOT_URL);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('connected to internet');
         filePath = await DefaultCacheManager().getSingleFile(url);
@@ -52,11 +58,11 @@ If offline, check the DefaultCacheManager and compare file to local file.
         print(
             "200... post file from network if needed, and write to the local file for offline.");
         String contents = await filePath.readAsString();
-        list = parseSagItems(contents);
+        list = parseGSAItems(contents);
         return list;
       } else {
         print("ERROR... Status code not 200, so getting local file...");
-        list = parseSagItems(await readLocalSagData());
+        list = parseGSAItems(await readLocalGSAData());
         return list;
       }
     } catch (e) {
@@ -64,23 +70,14 @@ If offline, check the DefaultCacheManager and compare file to local file.
       print("Try Error... " + e.toString());
       print("however, we are reading cached file to thwart this.");
       String contents = await filePath.readAsString();
-      list = parseSagItems(contents);
+      list = parseGSAItems(contents);
       return list;
     }
   }
 
-  // //get all the images downloaded for offliness...
-  // static List<SagItem> parseSagImages(String responseBody){
-  //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-  //   return parsed.map<SagItem>((json) => SagItem.fromJson(json)).toList();
-
-  // }
-
-  //list is ready for sagList.dart
-  static List<Chainsaw> parseSagItems(String responseBody) {
+  static List<GSAs> parseGSAItems(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<Chainsaw>((json) => Chainsaw.fromJson(json)).toList();
+    return parsed.map<GSAs>((json) => GSAs.fromJson(json)).toList();
   }
 
   static Future<String> get _localPath async {
@@ -90,26 +87,26 @@ If offline, check the DefaultCacheManager and compare file to local file.
 
   static Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/sagdata.json');
+    return File('$path/general-purpose-spark-arrester.json');
   }
 
-  static Future<File> compareSagFiles(File one, File two) async {
+  static Future<File> compareGSAFiles(File one, File two) async {
     if (one.lengthSync() >= two.lengthSync()) {
-      print("compareSagFile One");
+      print("compareGSAFile One");
       return one;
     } else {
-      print("compareSagFile Two");
+      print("compareGSAFile Two");
       return two;
     }
   }
 
-  static Future<File> writeSagData(String data) async {
+  static Future<File> writeGSAData(String data) async {
     final file = await _localFile;
     // Write the file.
     return file.writeAsString(data);
   }
 
-  static Future<String> readLocalSagData() async {
+  static Future<String> readLocalGSAData() async {
     try {
       final file = await _localFile;
       // Read the file.
