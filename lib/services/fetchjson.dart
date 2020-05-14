@@ -9,10 +9,10 @@ import 'package:sag/utils/constants.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image_downloader/image_downloader.dart';
 
-
 class FetchJson {
   static String url = Constants.SAG_DATA_URL;
-  static List<SagItem> list = parseSagItems('[{"Manufacture": "sorry, there has been an error loading data","Model": "No network file available...","Comments": "","Image": "","Description": ""}]');
+  static List<Chainsaw> list = parseSagItems(
+      '[{"Manufacture": "sorry, there has been an error loading data","Model": "No network file available...","Comments": "","Image": "","Description": ""}]');
   List<File> _mulitpleFiles = [];
 /**
 
@@ -27,8 +27,8 @@ If offline, check the DefaultCacheManager and compare file to local file.
     return await rootBundle.loadString('assets/sagdata.json');
   }
 
-  static Future<List<SagItem>> getSagData() async {
-    var filePath;   
+  static Future<List<Chainsaw>> getSagData() async {
+    var filePath;
     //find out if there is a connection, if there is, get the file into the cache
     try {
       final result = await InternetAddress.lookup("fs.usda.gov");
@@ -38,19 +38,20 @@ If offline, check the DefaultCacheManager and compare file to local file.
       }
     } on SocketException catch (_) {
       print('not connected to internet');
-      //send cached filepath 
+      //send cached filepath
       try {
-        filePath = await DefaultCacheManager().getSingleFile(url);  
+        filePath = await DefaultCacheManager().getSingleFile(url);
       } catch (e) {
         print("Not Connected Error: " + e.toString());
         filePath = _localFile;
-      } 
+      }
     }
-      
+
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        print("200... post file from network if needed, and write to the local file for offline.");
+        print(
+            "200... post file from network if needed, and write to the local file for offline.");
         String contents = await filePath.readAsString();
         list = parseSagItems(contents);
         return list;
@@ -72,17 +73,15 @@ If offline, check the DefaultCacheManager and compare file to local file.
   // //get all the images downloaded for offliness...
   // static List<SagItem> parseSagImages(String responseBody){
   //   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    
 
-    
   //   return parsed.map<SagItem>((json) => SagItem.fromJson(json)).toList();
 
   // }
 
   //list is ready for sagList.dart
-  static List<SagItem> parseSagItems(String responseBody) {
+  static List<Chainsaw> parseSagItems(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<SagItem>((json) => SagItem.fromJson(json)).toList();
+    return parsed.map<Chainsaw>((json) => Chainsaw.fromJson(json)).toList();
   }
 
   static Future<String> get _localPath async {
@@ -96,10 +95,10 @@ If offline, check the DefaultCacheManager and compare file to local file.
   }
 
   static Future<File> compareSagFiles(File one, File two) async {
-    if(one.lengthSync()  >= two.lengthSync()){
+    if (one.lengthSync() >= two.lengthSync()) {
       print("compareSagFile One");
       return one;
-    }else{
+    } else {
       print("compareSagFile Two");
       return two;
     }
@@ -117,10 +116,11 @@ If offline, check the DefaultCacheManager and compare file to local file.
       // Read the file.
       String contents = await file.readAsString();
       return contents;
-
     } catch (e) {
       // If encountering an error, return 0.
-      return '[{"Manufacture": "Ut oh! There has been an Error...","Model": "Caught error is: ' + e.toString() + '","Comments": "","Image": "","Description": ""}]';
+      return '[{"Manufacture": "Ut oh! There has been an Error...","Model": "Caught error is: ' +
+          e.toString() +
+          '","Comments": "","Image": "","Description": ""}]';
     }
   }
 }
