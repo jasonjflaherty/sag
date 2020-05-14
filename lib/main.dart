@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sag/models/chainsaws.dart';
 import 'package:sag/pages/chainsawList.dart';
 import 'package:sag/pages/generalList.dart';
 import 'package:sag/pages/legalPage.dart';
 import 'package:sag/pages/otherList.dart';
 import 'package:sag/pages/qaPage.dart';
-import 'package:sag/services/webservice.dart';
 import 'package:sag/utils/constants.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';

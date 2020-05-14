@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'dart:async' show Future;
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:sag/models/others.dart';
-import 'package:sag/models/sagitemstatic.dart';
 import 'package:sag/utils/constants.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -21,7 +19,7 @@ class FetchJson {
   static String url = Constants.SAG_OTHER_DATA_URL;
   static List<Others> list = parseOtherItems(
       '[{"powerunit": "sorry, there has been an error loading data","spark-arrester": "No network file available...","mfg": "","type": "","remarks":""}]');
-  List<File> _mulitpleFiles = [];
+
 /**
 
 If online, just get the file with DefaultCacheManager.
