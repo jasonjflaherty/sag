@@ -19,4 +19,18 @@ class Constants {
   static final String SAG_APP_TITLE = "USFS Spark Arrestor Guide";
   static final String SAG_LEGAL_TITLE = "Legal Page";
   static final String SAG_QA_TITLE = "Q&A Page";
+
+  static const String NAV_CHAINSAW = "Chainsaw Spark Arresters";
+  static const String NAV_GENERAL = "General Purpose Spark Arresters";
+  static const String NAV_OTHER = "Other Spark Arresters";
+  static const String NAV_LEGAL = "Legal";
+  static const String NAV_QA = "Q&A";
+  static const String NAV_HOME = "Home";
+
+  static const List<String> navchoices = <String>[
+    NAV_HOME,
+    NAV_CHAINSAW,
+    NAV_GENERAL,
+    NAV_OTHER
+  ];
 }
