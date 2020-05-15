@@ -7,6 +7,7 @@ import 'package:sag/pages/legalPage.dart';
 import 'package:sag/pages/otherList.dart';
 import 'package:sag/pages/qaPage.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
+import 'package:toast/toast.dart';
 
 import '../main.dart';
 import '../utils/constants.dart';
@@ -69,7 +70,6 @@ Widget navBottomBar(int _currentIndex, BuildContext context) {
             }
             break;
         }
-        print("Selected Index: $index");
       },
       items: [
         TitledNavigationBarItem(title: Text('Home'), icon: Icons.home),
@@ -94,6 +94,12 @@ void navAction(String nav, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => OtherFilterData()),
+    );
+  } else if (nav == "Refresh Data") {
+    Toast.show("Data Refreshed!", context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM, backgroundColor: Colors.green);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => App()),
     );
   }
 }

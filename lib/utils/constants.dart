@@ -25,10 +25,10 @@ class Constants {
   static const String NAV_OTHER = "Other Spark Arresters";
   static const String NAV_LEGAL = "Legal";
   static const String NAV_QA = "Q&A";
-  static const String NAV_HOME = "Home";
+  static const String NAV_REFRESH = "Refresh Data";
 
   static const List<String> navchoices = <String>[
-    NAV_HOME,
+    NAV_REFRESH,
     NAV_CHAINSAW,
     NAV_GENERAL,
     NAV_OTHER

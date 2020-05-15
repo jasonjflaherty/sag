@@ -5,7 +5,8 @@ import 'package:sag/pages/chainsawList.dart';
 import 'package:sag/pages/generalList.dart';
 import 'package:sag/pages/otherList.dart';
 import 'package:sag/utils/constants.dart';
-
+import 'package:sag/widgets/connectivitywarning.dart';
+import 'dart:io';
 import 'widgets/widgetsNavbars.dart';
 
 void main() => runApp(App());
@@ -20,11 +21,43 @@ class App extends StatelessWidget {
           primarySwatch: Colors.brown,
         ),
         home: //SagSearchPage(),
-            Home());
+            _HomeApp());
   }
 }
 
-class Home extends StatelessWidget {
+class _HomeApp extends StatefulWidget {
+  _HomeApp({Key key}) : super(key: key);
+
+  __HomeAppState createState() => __HomeAppState();
+}
+
+class __HomeAppState extends State<_HomeApp> {
+  bool _visible = false;
+  var _catcherror = "";
+  @override
+  void initState() {
+    super.initState();
+    _vis().then((value) {
+      setState(() {
+        _visible = value;
+      });
+    });
+  }
+
+  Future<bool> _vis() async {
+    try {
+      final result = await InternetAddress.lookup('www.fs.usda.gov');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (e) {
+      _catcherror = e.toString();
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +65,7 @@ class Home extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: <Widget>[
+          connectivityCheck(_visible,_catcherror,context),
           Container(
             height: 150,
             child: GFImageOverlay(
