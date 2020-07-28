@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:sag/pages/chainsawList.dart';
 import 'package:sag/pages/generalList.dart';
 import 'package:sag/pages/otherList.dart';
+import 'package:sag/services/fetchChainsawJson.dart';
+import 'package:sag/services/fetchGeneralJson.dart';
+import 'package:sag/services/fetchOtherJson.dart';
 import 'package:sag/utils/constants.dart';
-import 'package:sag/widgets/connectivitywarning.dart';
 import 'dart:io';
 import 'widgets/widgetsNavbars.dart';
 
@@ -32,108 +36,117 @@ class _HomeApp extends StatefulWidget {
 }
 
 class __HomeAppState extends State<_HomeApp> {
-  bool _visible = false;
-  var _catcherror = "";
   @override
   void initState() {
     super.initState();
-    _vis().then((value) {
-      setState(() {
-        _visible = value;
-      });
-    });
-  }
-
-  Future<bool> _vis() async {
-    try {
-      final result = await InternetAddress.lookup('www.fs.usda.gov');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        return false;
-      } else {
-        return true;
-      }
-    } catch (e) {
-      _catcherror = e.toString();
-      return true;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: navAppBar(Constants.SAG_APP_TITLE, context),
-      body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          connectivityCheck(_visible,_catcherror,context),
-          Container(
-            height: 150,
-            child: GFImageOverlay(
-                boxFit: BoxFit.cover,
-                image: AssetImage('assets/sparksandlogo.png')),
-          ),
-          Container(
-            padding: EdgeInsets.all(30),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  GFTypography(
-                    text: 'Choose a Spark Arrester Category',
-                    type: GFTypographyType.typo3,
-                    showDivider: false,
+      body: OfflineBuilder(
+          connectivityBuilder: (
+            BuildContext context,
+            ConnectivityResult connectivity,
+            Widget child,
+          ) {
+            final bool connected = connectivity != ConnectivityResult.none;
+            return Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (!connected)
+                  Container(
+                    color: Colors.amber,
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                              "NOTE! No data connection currently. Please connect to the internet to download latest data..."),
+                        )),
                   ),
-                  SizedBox(height: 10),
-                  GFButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChainsawFilterData()),
-                      );
-                    },
-                    size: GFSize.LARGE,
-                    blockButton: true,
-                    text: "Chainsaws",
-                    fullWidthButton: true,
-                    color: Colors.brown,
-                  ),
-                  SizedBox(height: 10),
-                  GFButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GSAFilterData()),
-                      );
-                    },
-                    blockButton: true,
-                    size: GFSize.LARGE,
-                    fullWidthButton: true,
-                    text: "General Purpose",
-                    color: Colors.brown,
-                  ),
-                  SizedBox(height: 10),
-                  GFButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OtherFilterData()),
-                      );
-                    },
-                    blockButton: true,
-                    size: GFSize.LARGE,
-                    fullWidthButton: true,
-                    color: Colors.brown,
-                    text: "Other",
-                  ),
-                ],
-              ),
+                _sagCategories()
+              ],
+            ));
+          },
+          child: Container(child: Text(""))),
+    );
+  }
+}
+
+class _sagCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Column(
+      children: <Widget>[
+        Container(
+          height: 150,
+          child: GFImageOverlay(
+              boxFit: BoxFit.cover,
+              image: AssetImage('assets/sparksandlogo.png')),
+        ),
+        Container(
+          padding: EdgeInsets.all(30),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                GFTypography(
+                  text: 'Choose a Spark Arrester Category',
+                  type: GFTypographyType.typo3,
+                  showDivider: false,
+                ),
+                SizedBox(height: 10),
+                GFButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChainsawFilterData()),
+                    );
+                  },
+                  size: GFSize.LARGE,
+                  blockButton: true,
+                  text: "Chainsaws",
+                  fullWidthButton: true,
+                  color: Colors.brown,
+                ),
+                SizedBox(height: 10),
+                GFButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GSAFilterData()),
+                    );
+                  },
+                  blockButton: true,
+                  size: GFSize.LARGE,
+                  fullWidthButton: true,
+                  text: "General Purpose",
+                  color: Colors.brown,
+                ),
+                SizedBox(height: 10),
+                GFButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OtherFilterData()),
+                    );
+                  },
+                  blockButton: true,
+                  size: GFSize.LARGE,
+                  fullWidthButton: true,
+                  color: Colors.brown,
+                  text: "Other",
+                ),
+              ],
             ),
           ),
-        ],
-      )),
-      bottomNavigationBar: navBottomBar(0, context),
-    );
+        ),
+      ],
+    ));
   }
 }

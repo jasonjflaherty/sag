@@ -10,7 +10,8 @@ Widget connectivityCheck(bool _visible, var _error, BuildContext context) {
       color: Colors.red,
       padding: EdgeInsets.all(10),
       child: Text(
-        "WARNING! Cannot connect to fs.usda.gov\n Confirm you have a data connection for current data.\n Cached data on device is still available.",
+        _error,
+        //"WARNING! Cannot connect to fs.usda.gov\n Confirm you have a data connection for current data.\n Cached data on device is still available.",
         style: TextStyle(
             fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
         maxLines: 4,
