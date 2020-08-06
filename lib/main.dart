@@ -94,7 +94,7 @@ class _sagCategories extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 GFTypography(
-                  text: 'Choose a Spark Arrester Category',
+                  text: 'Choose a Category',
                   type: GFTypographyType.typo3,
                   showDivider: false,
                 ),

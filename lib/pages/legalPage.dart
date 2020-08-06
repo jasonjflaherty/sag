@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sag/pages/qaPage.dart';
-import 'file:///C:/Users/jflaherty/Documents/Development/mobile/sagweb/lib/widgets/widgetsNavbars.dart';
+import 'package:sag/widgets/widgetsNavbars.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 import '../main.dart';

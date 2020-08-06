@@ -36,14 +36,14 @@ If offline, check the DefaultCacheManager and compare file to local file.
     try {
       final result = await InternetAddress.lookup(Constants.SAG_ROOT_URL);
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected to internet');
-        filePath = await DefaultCacheManager().getSingleFile(url);
+        print(' connected to internets');
+        filePath = await DefaultCacheManager().getFileStream(url, withProgress: true);
       }
-    } on SocketException catch (_) {
-      print('not connected to internet');
+    } on SocketException catch (e) {
+      print(e.toString() + ' not connected to internet');
       //send cached filepath
       try {
-        filePath = await DefaultCacheManager().getSingleFile(url);
+        filePath = await DefaultCacheManager().getFileStream(url, withProgress: true);
       } catch (e) {
         print("Not Connected Error: " + e.toString());
         filePath = _localFile;

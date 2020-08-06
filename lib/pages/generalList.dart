@@ -8,7 +8,9 @@ import 'package:sag/pages/legalPage.dart';
 import 'package:sag/pages/qaPage.dart';
 import 'package:sag/services/fetchGeneralJson.dart';
 import 'package:sag/utils/constants.dart';
-import 'file:///C:/Users/jflaherty/Documents/Development/mobile/sagweb/lib/widgets/widgetsNavbars.dart';
+import 'package:sag/widgets/widgetsNavbars.dart';
+
+
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 
 import '../main.dart';

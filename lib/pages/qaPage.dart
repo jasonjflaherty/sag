@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sag/pages/legalPage.dart';
-import 'file:///C:/Users/jflaherty/Documents/Development/mobile/sagweb/lib/widgets/widgetsNavbars.dart';
+import 'package:sag/widgets/widgetsNavbars.dart';
 import 'package:sag/widgets/WidgetUrlCard.dart';
 import 'package:sag/widgets/reusableCard.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
